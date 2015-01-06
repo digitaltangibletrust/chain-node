@@ -74,6 +74,10 @@ Chain.prototype.getTransactionOpReturn = function(hash, cb) {
   this.dataApi.get('/transactions/' + hash + '/op-return', cb);
 };
 
+Chain.prototype.getTransactionConfidence = function(hash, cb) {
+  this.dataApi.get('/transactions/' + hash + '/confidence', cb);
+};
+
 Chain.prototype.sendTransaction = function(hex, cb) {
   this.dataApi.post('/transactions', {hex: hex}, cb);
 };
