@@ -143,7 +143,7 @@ Chain.prototype.transact = function(args, cb) {
 
   this.buildTransaction(args, function(err, resp) {
     if(err == null) {
-      var signedTemplate = Signer(this.blockChainConfig, resp, keys);
+      var signedTemplate = Signer(blockChainConfig, resp, keys);
       that.sendTransaction(signedTemplate, cb);
     } else {
       cb(err, null);
