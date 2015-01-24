@@ -36,11 +36,14 @@ HttpUtility.prototype.makeRequest = function(method, path, body, options, cb) {
   if(options != null) {
     r['qs'] = options;
   }
-  request(r, function(err, msg, resp) {
+  request(r, function(err, resp, body) {
+    if (Math.floor(resp.statusCode / 100) != 2) {
+      err = body;
+    }
     if(usingJson) {
-      cb(err, resp);
+      cb(err, body);
     } else {
-      cb(err, JSON.parse(resp));
+      cb(err, JSON.parse(body));
     }
   });
 };
