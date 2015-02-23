@@ -18,13 +18,15 @@ function HttpUtility(c) {
     c.url = URL;
   };
   this.url = c.url;
+
+  this.PEM = PEM;
 }
 
 HttpUtility.prototype.makeRequest = function(method, path, body, options, cb) {
   var usingJson = false;
   var r = {
     strictSSL: true,
-    cert: PEM,
+    cert: this.PEM,
     auth: this.auth,
     method: method,
     uri: this.url + path
