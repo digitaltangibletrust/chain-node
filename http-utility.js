@@ -39,10 +39,16 @@ HttpUtility.prototype.makeRequest = function(method, path, body, options, cb) {
     r['qs'] = options;
   }
   request(r, function(err, resp, body) {
-    if (Math.floor(resp.statusCode / 100) != 2) {
-      err = body;
+    if (err) {
+      return cb(err);
     }
 
+    if (Math.floor(resp.statusCode / 100) != 2) {
+      err = new Error("Chain SDK error: bad status code " + resp.statusCode.toString() + ". See 'resp' property for more detail.");
+      err.resp = resp;
+      return cb(err);
+    }
+    
     if(usingJson) {
       return cb(err, body);
     }
