@@ -42,11 +42,22 @@ HttpUtility.prototype.makeRequest = function(method, path, body, options, cb) {
     if (Math.floor(resp.statusCode / 100) != 2) {
       err = body;
     }
+
     if(usingJson) {
-      cb(err, body);
-    } else {
-      cb(err, JSON.parse(body));
+      return cb(err, body);
     }
+
+    var parsed;
+    try {
+      parsed = JSON.parse(body);
+    } catch (e) {
+      err = new Error("Chain SDK error: could not decode JSON response. See 'error' and 'resp' properties for more detail.");
+      err.error = e;
+      err.resp = resp;
+      return cb(err);
+    }
+
+    cb(null, parsed);
   });
 };
 
